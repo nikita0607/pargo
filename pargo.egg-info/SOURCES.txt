@@ -1,0 +1,10 @@
+README.md
+setup.py
+pargo/__init__.py
+pargo/core.py
+pargo/scripts.py
+pargo.egg-info/PKG-INFO
+pargo.egg-info/SOURCES.txt
+pargo.egg-info/dependency_links.txt
+pargo.egg-info/entry_points.txt
+pargo.egg-info/top_level.txt

@@ -6,7 +6,7 @@ import os
 print(os.listdir())
 
 setup(
-    name='pcclient',
+    name='pargo',
     version='1.0.0',
     url='https://github.com/the-gigi/conman',
     license='MIT',
@@ -16,5 +16,8 @@ setup(
 
     packages=find_packages(),
     long_description=open(join(dirname(__file__), 'README.md')).read(),
+
+    entry_points={"console_scripts": ["pargo = pargo.core:main"]},
+
     install_requires=[]
 )

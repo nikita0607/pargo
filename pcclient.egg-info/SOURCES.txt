@@ -1,0 +1,9 @@
+README.md
+setup.py
+pargo/__init__.py
+pargo/scripts.py
+pcclient.egg-info/PKG-INFO
+pcclient.egg-info/SOURCES.txt
+pcclient.egg-info/dependency_links.txt
+pcclient.egg-info/entry_points.txt
+pcclient.egg-info/top_level.txt
