@@ -1,6 +1,9 @@
 import sys
-from . import scripts
 
+try:
+    import scripts
+except:
+    from . import scripts
 
 def main(*args, **kwargs):
     argv = sys.argv[1:]
