@@ -107,7 +107,7 @@ def install_r(argv: list[str]):
         return
 
     out = run(f"pip install -r {name}")
-    print(out)
+    print(out.stdout)
 
     print("Success!")
 

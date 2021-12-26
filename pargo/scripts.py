@@ -21,7 +21,7 @@ def run_command(argv: list) -> bool:
 def command(name: str):
     def dec(fn):
         commands[name] = fn
-        return fn  
+        return fn
     return dec
 
 
@@ -107,12 +107,11 @@ def install_r(argv: list[str]):
         return
 
     out = run(f"pip install -r {name}")
-    print(out)
+    print(out.stdout)
 
     print("Success!")
 
     cd(cur_dir)
-
 
 
 @command("new")
@@ -147,12 +146,12 @@ Flags:
 
     os.mkdir(name) if not path.isdir(name) else None
 
-    if not "--no-git" in flags:   # Initialize GIT repo
+    if "--no-git" not in flags:   # Initialize GIT repo
         os.chdir(f"{name}")
         code = os.system("git init")
         print(code)
 
-    if not "--no-readme" in flags:
+    if "--no-readme" not in flags:
         make_file("README.md")
     else:
         print("No README.md")
@@ -160,7 +159,7 @@ Flags:
     if not "--no-req":
         make_file("requirements.txt")
 
-    if not "--no-hw" in flags:   # Create main.py file
+    if "--no-hw" not in flags:   # Create main.py file
         make_file(f"main.py", 'print("Hello world!")')
     else:
         make_file("main.py")
