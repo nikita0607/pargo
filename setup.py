@@ -8,10 +8,10 @@ print(os.listdir())
 setup(
     name='pargo',
     version='1.0.0',
-    url='https://github.com/the-gigi/conman',
+    url='https://github.com/nikita0607/pargo',
     license='MIT',
 
-    author="Nikita0607",
+    author="nikita0607",
     author_email="ecfed205@gmail.com",
 
     packages=find_packages(),

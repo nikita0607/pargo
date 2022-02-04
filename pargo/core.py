@@ -11,7 +11,7 @@ def main(*args, **kwargs):
     print("Python's project manager\n")
 
     if not len(argv):
-        scripts.help()
+        scripts.help([])
         return
 
     if not scripts.run_command(argv):

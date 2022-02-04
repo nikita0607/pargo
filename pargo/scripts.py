@@ -4,6 +4,8 @@ from os import path
 from subprocess import run as _run
 from subprocess import STDOUT, PIPE
 
+from typing import Union, List, Dict
+
 
 commands = {}
 
@@ -12,20 +14,20 @@ def run_command(argv: list) -> bool:
     command = argv[0]
 
     if command in commands:
-        commands[command](argv[1:])
+        commands[command][0](argv[1:])
         return True
 
     return False
 
 
-def command(name: str):
+def command(name: str, desciption: str = "No description"):
     def dec(fn):
-        commands[name] = fn
+        commands[name] = fn, desciption
         return fn
     return dec
 
 
-def name_from_argv(argv: list[str]) -> (str, list[str]):
+def name_from_argv(argv: List[str]) -> Union[str, List[str]]:
     if "-n" in argv:
         return argv.pop(argv.index("-n")+1), argv
     if "--name" in argv:
@@ -34,7 +36,7 @@ def name_from_argv(argv: list[str]) -> (str, list[str]):
     return None, argv
 
 
-def print_unknown_values(argv: list[str]):
+def print_unknown_values(argv: List[str]):
     for i in argv:
         if i.startswith("-"):
             print(f"Unknown flag: {i}")
@@ -42,7 +44,7 @@ def print_unknown_values(argv: list[str]):
             print(f"Unknown param: {i}")
 
 
-def parse_flags(argv: list[str]) -> (dict[str, str], list[str]):
+def parse_flags(argv: List[str]) -> Union[Dict[str, str], List[str]]:
     args = []
     flags = {}
 
@@ -83,13 +85,14 @@ def run(command: str):
     return out
 
 
-@command("help")
+@command("help", "Seen this message")
 def help(argv):
-    print("This is a help!")
+    print("Avaiabled commands: ")
+    for name, com in commands.items():
+        print(f"{name}: {com[1]}")
 
-
-@command("installr")
-def install_r(argv: list[str]):
+@command("installr", "Install requirements from file")
+def install_r(argv: List[str]):
     flags, args = parse_flags(argv)
 
     dir = args[0] if len(args) else ""
@@ -114,8 +117,8 @@ def install_r(argv: list[str]):
     cd(cur_dir)
 
 
-@command("new")
-def new(argv: list[str]):
+@command("new", "Create new empty project")
+def new(argv: List[str]):
     work_dir = os.getcwd()
 
     flags, args = parse_flags(argv)
