@@ -63,7 +63,7 @@ def parse_flags(argv: List[str]) -> Union[Dict[str, str], List[str]]:
         else:
             flags[el] = ""
 
-    return flags, argv
+    return flags, args
 
 
 def make_file(_dir, data: str = ""):
@@ -91,6 +91,7 @@ def help(argv):
     for name, com in commands.items():
         print(f"{name}: {com[1]}")
 
+
 @command("installr", "Install requirements from file")
 def install_r(argv: List[str]):
     flags, args = parse_flags(argv)
@@ -99,7 +100,7 @@ def install_r(argv: List[str]):
     name = flags["-n"] if "-n" in flags else "requirements.txt"
 
     if len(dir) and dir != "." and not os.path.isdir(dir):
-        print("Directory {dir} not found!")
+        print(f"Directory {dir} not found!")
         return
 
     cur_dir = cd(dir)
@@ -112,9 +113,41 @@ def install_r(argv: List[str]):
     out = run(f"pip install -r {name}")
     print(out.stdout)
 
-    print("Success!")
+    print("Success installing requirements!")
 
     cd(cur_dir)
+
+
+@command("clone", "Clone Python repo")
+def clone(argv: List[str]):
+    flags, args = parse_flags(argv)
+    
+    if "-h" in flags or "--help" in flags or not len(flags) and not len(args):
+        print("""   Help:
+It clone Python repo and install requirements
+Flags: No
+""")
+        return
+
+    req_file = flags["-r"] if "-r" in flags else "requirements.txt"
+
+    if len(args) < 0:
+        print("Please, enter url")
+        return
+
+    out = run(f"git clone {args[0]}")
+    std = out.stdout
+
+    print(std)
+
+    if out.returncode != 0:
+        return
+    
+    dir_name = std[std.index("'")+1:]
+    dir_name = dir_name[:dir_name.index("'")]
+
+    print(f"Try install requirements from {req_file}")
+    install_r(["-n", f"{dir_name}/{req_file}"])
 
 
 @command("new", "Create new empty project")
@@ -148,11 +181,10 @@ Flags:
         return
 
     os.mkdir(name) if not path.isdir(name) else None
-
+    os.chdir(f"{name}")
+    
     if "--no-git" not in flags:   # Initialize GIT repo
-        os.chdir(f"{name}")
-        code = os.system("git init")
-        print(code)
+        run("git init")
 
     if "--no-readme" not in flags:
         make_file("README.md")
@@ -163,10 +195,9 @@ Flags:
         make_file("requirements.txt")
 
     if "--no-hw" not in flags:   # Create main.py file
-        make_file(f"main.py", 'print("Hello world!")')
+        make_file("main.py", 'print("Hello world!")')
     else:
         make_file("main.py")
-        print("No Hello world")
 
     print(f"Succesfully created project: {name}")
 
