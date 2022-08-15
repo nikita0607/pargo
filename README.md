@@ -9,7 +9,13 @@ This is a package manager for `Python`.
 Create new python project
 
 ```shell
-pargo new ProjectName
+pargo new project_name
+```
+
+Best example:
+
+```shell
+pargo new pArGo --no-hw
 ```
 
 2. installr

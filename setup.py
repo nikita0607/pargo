@@ -3,11 +3,12 @@ from os.path import join, dirname
 
 import os
 
+
 print(os.listdir())
 
 setup(
     name='pargo',
-    version='1.1.0',
+    version='1.3.0',
     url='https://github.com/nikita0607/pargo',
     license='MIT',
 
@@ -16,8 +17,6 @@ setup(
 
     packages=find_packages(),
     long_description=open(join(dirname(__file__), 'README.md')).read(),
-
-    entry_points={"console_scripts": ["pargo = pargo.core:main"]},
 
     install_requires=[]
 )
